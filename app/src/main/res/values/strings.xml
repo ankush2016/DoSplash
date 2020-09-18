@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DoSplash</string>
+
+    <string name="splash_subtitle">Free photos from unsplash</string>
+</resources>
