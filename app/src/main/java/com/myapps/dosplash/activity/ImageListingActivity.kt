@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.myapps.dosplash.R
 import com.myapps.dosplash.`interface`.LoadMoreListener
 import com.myapps.dosplash.adapter.UnsplashImagesRVAdapter
 import com.myapps.dosplash.model.UnsplashRVItems
 import com.myapps.dosplash.utility.AppConstants
+import com.myapps.dosplash.utility.AppUtility
 import com.myapps.dosplash.viewmodel.ImageListingViewModel
 import com.myapps.dosplash.viewmodel.ImageListingViewModelFactory
 import kotlinx.android.synthetic.main.activity_image_listing.*
@@ -44,8 +46,6 @@ class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
                     }
 
                     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        randomPhotoShimmer.stopShimmer()
-                        randomPhotoShimmer.visibility = View.GONE
                         return true
                     }
 
@@ -61,7 +61,19 @@ class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
                 }
                 adapter.updateData(mUnsplashRVItemsList)
             }
+            checkAndShowLoader(viewModel.mIsDataLoading)
         })
+        swipeRefreshLayout.setOnRefreshListener {
+            resetData()
+            swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    private fun resetData() {
+        viewModel.pageNo = 1
+        viewModel.mIsDataLoading = false
+        adapter.clearData()
+        fetchData()
     }
 
     private fun setupRVImageList() {
@@ -69,18 +81,37 @@ class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
         adapter = UnsplashImagesRVAdapter(this)
         rvImageList.layoutManager = layoutManager
         rvImageList.adapter = adapter
-        rvImageList.isNestedScrollingEnabled = false
     }
 
     private fun fetchData() {
+        if (viewModel.mIsDataLoading) return
         viewModel.fetchRandomPhoto()
-        //randomPhotoShimmer.startShimmer()
-
         viewModel.fetchPhotos()
+        checkAndShowLoader(viewModel.mIsDataLoading)
     }
 
     override fun onLoadMore() {
+        if (viewModel.mIsDataLoading) return
         viewModel.fetchPhotos()
+        checkAndShowLoader(viewModel.mIsDataLoading)
     }
 
+    private fun checkAndShowLoader(showLoader: Boolean) {
+        if (viewModel.pageNo == 1) {
+            showLoader(loaderCenter, showLoader)
+        } else {
+            showLoader(loaderBottom, showLoader)
+            if (!showLoader) {
+                showLoader(loaderCenter, showLoader)
+            }
+        }
+    }
+
+    private fun showLoader(loader: LottieAnimationView, showLoader: Boolean) {
+        if (showLoader) {
+            AppUtility.startLoader(loader)
+        } else {
+            AppUtility.stopLoader(loader)
+        }
+    }
 }

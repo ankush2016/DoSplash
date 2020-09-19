@@ -15,7 +15,8 @@ class ImageListingViewModel : ViewModel() {
 
     val unsplashRandomPhoto: MutableLiveData<Unsplash> = MutableLiveData()
     val unsplashPhotosList: MutableLiveData<List<Unsplash>> = MutableLiveData()
-    var pageNo = 1
+    var pageNo: Int = 1
+    var mIsDataLoading = false
 
     fun fetchRandomPhoto() {
         val destinationService = ServiceBuilder.buildService(DestinationService::class.java)
@@ -34,17 +35,21 @@ class ImageListingViewModel : ViewModel() {
     }
 
     fun fetchPhotos() {
+        mIsDataLoading = true
         val destinationService = ServiceBuilder.buildService(DestinationService::class.java)
         val requestCall = destinationService.getPhotos(AppConstants.CLIENT_ID, pageNo)
         requestCall.enqueue(object : Callback<List<Unsplash>> {
             override fun onResponse(call: Call<List<Unsplash>>, response: Response<List<Unsplash>>) {
+                mIsDataLoading = false
                 if (response.isSuccessful) {
-                    unsplashPhotosList?.postValue(response.body())
                     pageNo++
+                    Log.e("ANKUSH", "pageNo = $pageNo")
+                    unsplashPhotosList?.postValue(response.body())
                 }
             }
 
             override fun onFailure(call: Call<List<Unsplash>>, t: Throwable) {
+                mIsDataLoading = false
             }
         })
     }

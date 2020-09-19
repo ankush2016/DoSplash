@@ -45,7 +45,7 @@ class UnsplashImagesRVAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             holder.updateData(mUnsplashRVItemsList[position].unsplash)
         }
 
-        if (position == mUnsplashRVItemsList.size - 1 && mUnsplashRVItemsList.isNotEmpty() && position != 0) {
+        if (position == mUnsplashRVItemsList.size - 1 && position != 0) {
             Log.e("ANKUSH", "Load More $position ${mUnsplashRVItemsList.size}")
             mLoadMoreListener.onLoadMore()
         }
@@ -73,6 +73,11 @@ class UnsplashImagesRVAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
     fun updateData(unsplashImageList: ArrayList<UnsplashRVItems>) {
         mUnsplashRVItemsList.addAll(unsplashImageList)
+        notifyDataSetChanged()
+    }
+
+    fun clearData() {
+        mUnsplashRVItemsList.clear()
         notifyDataSetChanged()
     }
 
