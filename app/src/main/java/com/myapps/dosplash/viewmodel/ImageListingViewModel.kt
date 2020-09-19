@@ -15,6 +15,7 @@ class ImageListingViewModel : ViewModel() {
 
     val unsplashRandomPhoto: MutableLiveData<Unsplash> = MutableLiveData()
     val unsplashPhotosList: MutableLiveData<List<Unsplash>> = MutableLiveData()
+    val unsplashList = ArrayList<Unsplash>()
     var pageNo: Int = 1
     var mIsDataLoading = false
 
@@ -44,7 +45,10 @@ class ImageListingViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     pageNo++
                     Log.e("ANKUSH", "pageNo = $pageNo")
-                    unsplashPhotosList?.postValue(response.body())
+                    response.body()?.let {
+                        unsplashList.addAll(it)
+                        unsplashPhotosList?.value = unsplashList
+                    }
                 }
             }
 

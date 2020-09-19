@@ -38,24 +38,11 @@ class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
         fetchData()
         viewModel.unsplashRandomPhoto.observe(this, {
             adapter.updateHeaderImage(UnsplashRVItems(AppConstants.ITEM_TYPE_HEADER, it))
-            /*Glide.with(this)
-                .load(it.urls?.regular)
-                *//*.listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        return true
-                    }
-
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        return true
-                    }
-
-                })*//*
-                .thumbnail(Glide.with(this).load(it.urls?.thumb))
-                .into(ivRandomPhoto)*/
         })
 
         viewModel.unsplashPhotosList.observe(this, {
             if (::adapter.isInitialized) {
+                mUnsplashRVItemsList.clear()
                 for (i in it.indices) {
                     mUnsplashRVItemsList.add(UnsplashRVItems(AppConstants.ITEM_TYPE_LIST_ITEM, it[i]))
                 }
@@ -81,6 +68,7 @@ class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
         adapter = UnsplashImagesRVAdapter(this)
         rvImageList.layoutManager = layoutManager
         rvImageList.adapter = adapter
+        rvImageList.setHasFixedSize(true)
     }
 
     private fun fetchData() {

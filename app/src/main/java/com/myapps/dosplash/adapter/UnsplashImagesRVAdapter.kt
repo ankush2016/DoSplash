@@ -51,10 +51,6 @@ class UnsplashImagesRVAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         }
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     override fun getItemCount(): Int {
         return mUnsplashRVItemsList.size
     }
@@ -72,7 +68,14 @@ class UnsplashImagesRVAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     }
 
     fun updateData(unsplashImageList: ArrayList<UnsplashRVItems>) {
-        mUnsplashRVItemsList.addAll(unsplashImageList)
+        var item: UnsplashRVItems? = null
+        if (mUnsplashRVItemsList.isNotEmpty() && mUnsplashRVItemsList[0].itemType == AppConstants.ITEM_TYPE_HEADER) {
+            item = unsplashImageList[0]
+        }
+        mUnsplashRVItemsList = unsplashImageList
+        item?.let {
+            mUnsplashRVItemsList.add(0, item)
+        }
         notifyDataSetChanged()
     }
 
@@ -96,6 +99,7 @@ class UnsplashImagesRVAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         private val clProfilePic: ConstraintLayout = itemView.clProfilePic
         private val ivProfilePic: AppCompatImageView = itemView.ivProfilePic
         fun updateData(unsplash: Unsplash) {
+            ivUnsplashImage.setImageBitmap(null)
             Glide.with(itemView.context)
                 .load(unsplash.urls?.small)
                 .thumbnail(Glide.with(itemView.context).load(unsplash.urls?.thumb))
