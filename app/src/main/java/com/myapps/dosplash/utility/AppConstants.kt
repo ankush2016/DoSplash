@@ -11,4 +11,5 @@ object AppConstants {
 
     const val ITEM_TYPE_HEADER = "HEADER_PHOTO"
     const val ITEM_TYPE_LIST_ITEM = "LIST_IMAGES"
+    const val UNSPLASH_ITEM_KEY = "unsplashItem"
 }

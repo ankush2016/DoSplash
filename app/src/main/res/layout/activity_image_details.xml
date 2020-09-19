@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.ImageDetailsActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivUnsplashImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/white_solid_bg"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivUnsplashImage"
+            app:srcCompat="@drawable/ic_location" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="4sp"
+            android:textColor="#de000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivLocation"
+            app:layout_constraintStart_toEndOf="@id/ivLocation"
+            app:layout_constraintTop_toTopOf="@id/ivLocation"
+            tools:text="Fraser Island, Australia" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/imgDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="6sp"
+            android:textColor="#de000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLocation"
+            tools:text="Fraseer Island shoot - I enjoyed the amazing “Fraser Island” absolutely beautiful place East Coast Australia" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clProfilePic"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="19dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgDescription">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@id/ivUnsplashImage"
+                app:layout_constraintEnd_toEndOf="@id/ivUnsplashImage" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="sans-serif"
+            android:textColor="#de000000"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/clProfilePic"
+            app:layout_constraintStart_toEndOf="@id/clProfilePic"
+            app:layout_constraintTop_toTopOf="@id/clProfilePic"
+            tools:text="Georgie Scott" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

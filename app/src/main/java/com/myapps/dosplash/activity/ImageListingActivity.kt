@@ -4,17 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.myapps.dosplash.R
+import com.myapps.dosplash.`interface`.LoadMoreListener
 import com.myapps.dosplash.adapter.UnsplashImagesRVAdapter
-import com.myapps.dosplash.model.Unsplash
 import com.myapps.dosplash.model.UnsplashRVItems
 import com.myapps.dosplash.utility.AppConstants
 import com.myapps.dosplash.viewmodel.ImageListingViewModel
 import com.myapps.dosplash.viewmodel.ImageListingViewModelFactory
 import kotlinx.android.synthetic.main.activity_image_listing.*
 
-class ImageListingActivity : AppCompatActivity() {
+class ImageListingActivity : AppCompatActivity(), LoadMoreListener {
 
     private lateinit var viewModel: ImageListingViewModel
     private lateinit var adapter: UnsplashImagesRVAdapter
@@ -67,7 +66,7 @@ class ImageListingActivity : AppCompatActivity() {
 
     private fun setupRVImageList() {
         val layoutManager = LinearLayoutManager(this)
-        adapter = UnsplashImagesRVAdapter()
+        adapter = UnsplashImagesRVAdapter(this)
         rvImageList.layoutManager = layoutManager
         rvImageList.adapter = adapter
         rvImageList.isNestedScrollingEnabled = false
@@ -77,6 +76,10 @@ class ImageListingActivity : AppCompatActivity() {
         viewModel.fetchRandomPhoto()
         //randomPhotoShimmer.startShimmer()
 
+        viewModel.fetchPhotos()
+    }
+
+    override fun onLoadMore() {
         viewModel.fetchPhotos()
     }
 
