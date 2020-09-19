@@ -13,7 +13,9 @@ import retrofit2.Response
 
 class ImageListingViewModel : ViewModel() {
 
-    var unsplashRandomPhoto: MutableLiveData<Unsplash> = MutableLiveData()
+    val unsplashRandomPhoto: MutableLiveData<Unsplash> = MutableLiveData()
+    val unsplashPhotosList: MutableLiveData<List<Unsplash>> = MutableLiveData()
+    var pageNo = 1
 
     fun fetchRandomPhoto() {
         val destinationService = ServiceBuilder.buildService(DestinationService::class.java)
@@ -27,6 +29,22 @@ class ImageListingViewModel : ViewModel() {
 
             override fun onFailure(call: Call<Unsplash>, t: Throwable) {
                 Log.e("ANKUSH", "${t.message}")
+            }
+        })
+    }
+
+    fun fetchPhotos() {
+        val destinationService = ServiceBuilder.buildService(DestinationService::class.java)
+        val requestCall = destinationService.getPhotos(AppConstants.CLIENT_ID, pageNo)
+        requestCall.enqueue(object : Callback<List<Unsplash>> {
+            override fun onResponse(call: Call<List<Unsplash>>, response: Response<List<Unsplash>>) {
+                if (response.isSuccessful) {
+                    unsplashPhotosList?.postValue(response.body())
+                    pageNo++
+                }
+            }
+
+            override fun onFailure(call: Call<List<Unsplash>>, t: Throwable) {
             }
         })
     }

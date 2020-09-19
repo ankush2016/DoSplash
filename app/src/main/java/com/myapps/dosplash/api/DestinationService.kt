@@ -8,4 +8,7 @@ import retrofit2.http.Query
 interface DestinationService {
     @GET("photos/random")
     fun getRandomPhoto(@Query("client_id") cliendId: String, @Query("orientation") orientation: String = "landscape"): Call<Unsplash>
+
+    @GET("photos/")
+    fun getPhotos(@Query("client_id") cliendId: String, @Query("page") page: Int): Call<List<Unsplash>>
 }
